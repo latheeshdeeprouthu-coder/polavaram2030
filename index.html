@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eventora | Campus Event Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top nav-glass">
+  <div class="container"><a class="navbar-brand fw-bold" href="#"><span class="brand-mark"><i class="bi bi-stars"></i></span> Eventora</a>
+    <div class="ms-auto d-flex gap-2 align-items-center"><span id="navUser" class="small text-white-50 d-none d-md-inline"></span><button id="logoutBtn" class="btn btn-outline-light btn-sm d-none">Log out</button></div>
+  </div>
+</nav>
+<main class="container app-shell">
+  <section id="authView" class="row align-items-center g-5 min-vh-100 py-5">
+    <div class="col-lg-6 hero-copy">
+      <span class="eyebrow"><i class="bi bi-lightning-charge-fill"></i> YOUR CAMPUS, YOUR MOMENTS</span>
+      <h1>Make every<br><span>moment count.</span></h1>
+      <p class="lead">Discover campus events, reserve your place, and keep every experience in one beautiful space.</p>
+      <div class="hero-points"><span><i class="bi bi-check-circle-fill"></i> Easy registrations</span><span><i class="bi bi-check-circle-fill"></i> Live event updates</span><span><i class="bi bi-check-circle-fill"></i> Student-first design</span></div>
+      <div class="floating-shape shape-one"></div><div class="floating-shape shape-two"></div>
+    </div>
+    <div class="col-lg-5 ms-lg-auto">
+      <div class="auth-card glass-card">
+        <div class="d-flex gap-2 mb-4 auth-tabs">
+          <button class="btn tab-btn active" data-auth-tab="login">Sign in</button><button class="btn tab-btn" data-auth-tab="signup">Student sign up</button>
+        </div>
+        <div id="loginPanel">
+          <h2 class="h3 fw-bold mb-1">Welcome back</h2><p class="text-secondary mb-4">Sign in to continue to your dashboard.</p>
+          <form id="loginForm" novalidate>
+            <label class="form-label">Email address</label><input class="form-control mb-3" type="email" id="loginEmail" required autocomplete="email" placeholder="you@college.edu">
+            <label class="form-label">Password</label><div class="input-group mb-3"><input class="form-control" type="password" id="loginPassword" required minlength="6" autocomplete="current-password" placeholder="Your password"><button class="btn btn-outline-secondary toggle-pass" type="button" data-target="loginPassword"><i class="bi bi-eye"></i></button></div>
+            <button class="btn btn-primary w-100 btn-lg" type="submit">Sign in <i class="bi bi-arrow-right ms-1"></i></button>
+          </form>
+          <div class="admin-note mt-4"><i class="bi bi-shield-lock-fill"></i><span><b>Admin access</b><br><small>Admin accounts are created manually by the project owner. There is no public admin sign-up.</small></span></div>
+        </div>
+        <div id="signupPanel" class="d-none">
+          <h2 class="h3 fw-bold mb-1">Join Eventora</h2><p class="text-secondary mb-4">Create your student account.</p>
+          <form id="signupForm" novalidate>
+            <label class="form-label">Full name</label><input class="form-control mb-3" id="signupName" required minlength="2" maxlength="70" placeholder="Your full name">
+            <label class="form-label">College roll number</label><input class="form-control mb-3 text-uppercase" id="signupRoll" required pattern="[A-Za-z0-9/-]{3,25}" maxlength="25" placeholder="e.g. 26IT001">
+            <label class="form-label">Email address</label><input class="form-control mb-3" id="signupEmail" type="email" required autocomplete="email" placeholder="you@college.edu">
+            <label class="form-label">Password</label><input class="form-control mb-3" id="signupPassword" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters">
+            <label class="form-label">Confirm password</label><input class="form-control mb-3" id="signupConfirm" type="password" required minlength="8" autocomplete="new-password" placeholder="Repeat password">
+            <button class="btn btn-primary w-100 btn-lg" type="submit">Create student account <i class="bi bi-arrow-right ms-1"></i></button>
+          </form>
+          <p class="tiny-note mt-3 mb-0"><i class="bi bi-info-circle"></i> Email and roll number must be unique.</p>
+        </div>
+        <div id="authAlert" class="alert d-none mt-3 mb-0" role="alert"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="dashboardView" class="d-none pt-5 pb-5">
+    <div class="dashboard-heading d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4"><div><div class="eyebrow">EVENTORA / WORKSPACE</div><h1 class="h2 fw-bold mb-1" id="welcomeTitle">Your dashboard</h1><p class="text-secondary mb-0" id="welcomeSub">Here is what is happening on campus.</p></div><span class="role-pill" id="rolePill">STUDENT</span></div>
+    <div id="statsRow" class="row g-3 mb-4"></div>
+    <div id="adminControls" class="glass-card p-4 mb-4 d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3"><div><h2 class="h5 fw-bold mb-1">Create an event</h2><p class="text-secondary small mb-0">Publish a new event for students.</p></div><i class="bi bi-calendar2-plus display-6 text-primary"></i></div>
+      <form id="eventForm" class="row g-3" novalidate>
+        <div class="col-md-6"><label class="form-label">Event title</label><input class="form-control" id="eventTitle" required minlength="3" maxlength="100" placeholder="Tech fest 2026"></div>
+        <div class="col-md-6"><label class="form-label">Category</label><select class="form-select" id="eventCategory" required><option value="">Choose category</option><option>Technology</option><option>Workshop</option><option>Cultural</option><option>Sports</option><option>Seminar</option><option>Other</option></select></div>
+        <div class="col-md-4"><label class="form-label">Date</label><input class="form-control" id="eventDate" type="date" required></div>
+        <div class="col-md-4"><label class="form-label">Start time</label><input class="form-control" id="eventTime" type="time" required></div>
+        <div class="col-md-4"><label class="form-label">Venue</label><input class="form-control" id="eventVenue" required maxlength="100" placeholder="Main auditorium"></div>
+        <div class="col-md-4"><label class="form-label">Capacity</label><input class="form-control" id="eventCapacity" type="number" required min="1" max="10000" placeholder="100"></div>
+        <div class="col-12"><label class="form-label">Description</label><textarea class="form-control" id="eventDescription" rows="2" required minlength="10" maxlength="1000" placeholder="Tell students what this event is about..."></textarea></div>
+        <div class="col-12"><button class="btn btn-primary" type="submit"><i class="bi bi-plus-lg me-1"></i> Publish event</button></div>
+      </form>
+    </div>
+    <div class="section-header d-flex justify-content-between align-items-center mb-3"><div><h2 class="h4 fw-bold mb-1" id="eventsHeading">Explore events</h2><p class="text-secondary small mb-0">Find your next campus experience.</p></div><div class="input-group search-box"><span class="input-group-text"><i class="bi bi-search"></i></span><input id="eventSearch" class="form-control" placeholder="Search events..."></div></div>
+    <div id="eventsGrid" class="row g-4"></div>
+    <div id="studentsSection" class="glass-card p-4 mt-5 d-none"><div class="d-flex justify-content-between align-items-center mb-3"><div><h2 class="h5 fw-bold mb-1">Student directory</h2><p class="text-secondary small mb-0">Registered student accounts.</p></div><span class="role-pill">ADMIN ONLY</span></div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Name</th><th>Roll number</th><th>Email</th><th>Joined</th></tr></thead><tbody id="studentsTable"></tbody></table></div></div>
+    <div id="registrationsSection" class="glass-card p-4 mt-5 d-none"><h2 class="h5 fw-bold mb-3">My registrations</h2><div id="myRegistrations" class="row g-3"></div></div>
+  </section>
+</main>
+<div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="appToast" class="toast border-0" role="status"><div class="d-flex"><div id="toastMessage" class="toast-body"></div><button class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>
+<footer class="container py-4 text-center text-secondary small">Built for campus communities <span class="mx-2">•</span> Eventora</footer>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="firebase-config.js"></script><script src="app.js"></script>
+</body></html>
